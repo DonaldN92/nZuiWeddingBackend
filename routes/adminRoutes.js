@@ -17,8 +17,8 @@ router.post('/auth_me', authMeAdmin);
 // Protected routes
 router.delete('/:id', protect, isSuperAdmin, deleteAdmin);
 
-router.get('/users', protect,isSuperAdmin, getAdmins);
-router.post('/users',protect,isSuperAdmin, registerAdmin);
-router.patch('/users/:id',protect,isSuperAdmin, updateAdmin);
+router.get('/', protect,isSuperAdmin, getAdmins);
+router.post('/',protect,isSuperAdmin, registerAdmin);
+router.patch('//:id',protect,isSuperAdmin, updateAdmin);
 
 module.exports = router;

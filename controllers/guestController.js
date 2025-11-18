@@ -1,5 +1,6 @@
 const Guest = require('../models/Guest');
 const Event = require('../models/Event');
+const manageEmail = require('../utils/email');
 
 exports.getAllGuests = async (req, res) => {
   try {
@@ -18,6 +19,16 @@ exports.createGuest = async (req, res) => {
       let event=  await Event.findById(req.body.event._id)
       req.body.event.title=event.general.title
       req.body.manager=event.manager
+
+      manageEmail.sendEmail( Buffer.from(event.manager.email,'base64').toString('utf8'),
+        {
+          presence: req.body.isAttending?"Présence confirmée":"Ne peut pas assister",
+          contact:Buffer.from(req.body.email,'base64').toString('utf8')+" "+Buffer.from(req.body.phone,'base64').toString('utf8'),
+          name:Buffer.from(req.body.name,'base64').toString('utf8'),
+          place:req.body.plusOnes,
+          message:req.body.message
+        },
+        "newRSVP")
     }
     const guest = new Guest(req.body);
     const savedGuest = await guest.save();

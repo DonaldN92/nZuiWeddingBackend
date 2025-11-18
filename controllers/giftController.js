@@ -12,9 +12,11 @@ exports.createGift = async (req, res) => {
   try {
     req.admin._id=req.admin._id.toString();
     req.body.manager=req.admin
+    
+    if(req.body._id)delete req.body._id
     const gift = new Gift(req.body);
     const savedGift = await gift.save();
-    res.status(201).json({_id: savedGift._id.toString()});
+    res.status(201).json({_id: savedGift?._id?.toString()});
   } catch (error) {
     if (error.name === 'ValidationError') {
       let errors = [];

@@ -13,9 +13,8 @@ const BulkMessageSchema = new mongoose.Schema({
   recipients: { type: String, required: true},
   subject: {type: String, required: true},
   message:   {type: String, required: true },
-  listRecipients: { type: String},
-  type: { type: String,enum:["mail","sms"],default:"mail"},
-  isHide:   {type: Boolean}
+  type:  {type: String,enum:["mail","sms"],default:"mail"},
+  isHide:{type: Boolean}
 }, { timestamps: true });
 
 module.exports = mongoose.model('BulkMessage', BulkMessageSchema);

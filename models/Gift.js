@@ -12,7 +12,7 @@ const GiftSchema = new mongoose.Schema({
   },
   title:   {type: String, required: true },
   description:  {type: String},
-  status:  {type: String,default:"available"},
+  status:  {type: String,default:"available",enum: ['available','reserved','purchased']},
   
   price:  {type: Number},
   category: {type: String },

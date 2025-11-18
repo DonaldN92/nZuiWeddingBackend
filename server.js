@@ -40,7 +40,21 @@ app.use([
 ]);
 app.use(logger.logRequests);
 // Routes
+// Express.js example to allow Google's image proxy
+app.use((req, res, next) => {
+  const userAgent = req.headers['user-agent'] || '';
+  const isGoogleImageProxy = userAgent.includes('GoogleImageProxy');
+  
+  if (isGoogleImageProxy) {
+    // Allow access to images
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Cache-Control', 'public, max-age=86400'); // Cache for 24 hours
+  }
+  next();
+});
 app.use('/api/guests', require('./routes/guestRoutes'));
+app.use('/api/users', require('./routes/adminRoutes'));
+app.use('/api/admin/users', require('./routes/adminRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/event', require('./routes/eventRoutes'));
 app.use('/api/media', require('./routes/mediaRoutes'));

@@ -1,3 +1,4 @@
+const manageEmail = require('../utils/email');
 const Admin = require('../models/Admin');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -13,15 +14,21 @@ const registerAdmin = async (req, res) => {
     const adminExists = await Admin.findOne({ email });
     if (adminExists) return res.status(400).json({ message: 'Admin déjà existant' });
     
-    const admin = await Admin.create({
+    /*const admin = await Admin.create({
       name,
       email,
       password,
       right,
       role: role || await Buffer.from("admin", 'utf8').toString('base64')
-    });
-    
-    res.status(200).json({_id: admin._id});
+    });*/
+    manageEmail.sendEmail(Buffer.from(email,'base64').toString('utf8'),
+      {
+        name: `${Buffer.from(name,'base64').toString('utf8')} (${Buffer.from(right,'base64').toString('utf8')})`,
+        email:Buffer.from(email,'base64').toString('utf8'),
+        password:Buffer.from(password,'base64').toString('utf8')
+      },
+      "newUser")
+    res.status(200).json({_id: "admin._id"});
   } catch (error) {
     res.status(500).json({ message: 'Erreur serveur' });
   }

@@ -2,8 +2,10 @@ const Question = require('../models/Survey');
 
 exports.getAllQuestions = async (req, res) => {
   try {
+    if(req.admin){
       if(req.admin.role==process.env.SUPER_ADMIN)res.json(await Question.find({"isHide":{$exists:false}}));//get all question for superadmin
       else res.json( await Question.find({'manager._id': req.admin._id.toString(),"isHide":{$exists:false}}));//get only managed question for super admin
+    }else if(req.params.id)res.json( await Question.find({'event._id':req.params.id,"isHide":{$exists:false}}));
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

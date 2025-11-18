@@ -3,9 +3,10 @@ var router   =  express.Router()
 const fs = require('fs');
 
 router.post('/emailTemplate/:template',function(req, res) {
-  res.render(`emailTemplate/${req.params.template}`, {
-    data: req.body
-  })
+  console.log(req.params.template);
+  console.log(req.body);
+  
+  res.render(`emailTemplate/${req.params.template}`, {data: req.body})
 })
 router.get('/images/:imageName', function(req, res) {
   var image = req.params['imageName'];
