@@ -9,8 +9,8 @@ dist
 /.pnp
 .pnp.js
 
-# testing
-/coverage
+# images
+/images
 
 # production
 /build
